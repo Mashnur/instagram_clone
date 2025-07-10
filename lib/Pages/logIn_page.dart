@@ -110,13 +110,7 @@ class _LogInPageState extends State<LogInPage> {
       width: deviceWidth * 0.70,
       height: deviceHeight * 0.06,
       child: MaterialButton(
-        onPressed: () {
-          if (_loginFormKey.currentState!.validate()) {
-            _loginFormKey.currentState!.save();
-            print("Email: $_email");
-            print("Password: $_password");
-          }
-        },
+        onPressed: _loginUser, // ✅ Correctly calls the method
         color: Colors.red,
         child: const Text(
           "LogIn",
@@ -128,5 +122,13 @@ class _LogInPageState extends State<LogInPage> {
         ),
       ),
     );
+  }
+
+  void _loginUser() {
+    if (_loginFormKey.currentState!.validate()) {
+      _loginFormKey.currentState!.save();
+      print("Email: $_email");
+      print("Password: $_password");
+    }
   }
 }
