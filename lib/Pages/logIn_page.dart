@@ -30,6 +30,7 @@ class _LogInPageState extends State<LogInPage> {
                 _titleWidget(),
                 loginForm(_deviceWidth!, _deviceHeight!, _loginFormKey),
                 _logInButton(_deviceWidth!, _deviceHeight!),
+                _registerPageLink(),
               ],
             ),
           ),
@@ -119,6 +120,20 @@ class _LogInPageState extends State<LogInPage> {
             fontSize: 25,
             fontWeight: FontWeight.w600,
           ),
+        ),
+      ),
+    );
+  }
+
+  Widget _registerPageLink() {
+    return GestureDetector(
+      onTap: () => Navigator.pushNamed(context, 'register'),
+      child: const Text(
+        "Don't have an account?",
+        style: TextStyle(
+          color: Colors.blue,
+          fontSize: 18,
+          fontWeight: FontWeight.w400,
         ),
       ),
     );
