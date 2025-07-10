@@ -7,6 +7,10 @@ class RegisterPage extends StatefulWidget {
 
 class _RegisterPageState extends State<RegisterPage> {
   double? _deviceHeight, _deviceWidth;
+  final GlobalKey<FormState> _registerFormKey = GlobalKey<FormState>();
+  String? _name;
+  String? _email;
+  String? _password;
 
   @override
   Widget build(BuildContext context) {
@@ -24,6 +28,7 @@ class _RegisterPageState extends State<RegisterPage> {
               crossAxisAlignment: CrossAxisAlignment.center,
               children: [
                 _titleWidget(),
+                registerForm(_deviceWidth!, _deviceHeight!, _registerFormKey),
                 _registerButton(_deviceWidth!, _deviceHeight!),
               ],
             ),
@@ -42,6 +47,71 @@ Widget _titleWidget() {
       fontSize: 25,
       fontWeight: FontWeight.w600,
     ),
+  );
+}
+
+Widget registerForm(
+  double deviceWidth,
+  double deviceHeight,
+  GlobalKey<FormState> registerFormKey,
+) {
+  return Form(
+    key: registerFormKey,
+    child: Container(
+      height: deviceHeight * 0.30,
+      child: Column(
+        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+        mainAxisSize: MainAxisSize.max,
+        crossAxisAlignment: CrossAxisAlignment.center,
+        children: [_nameTextField(), _emailTextField(), _passwordTextField()],
+      ),
+    ),
+  );
+}
+
+Widget _nameTextField() {
+  return TextFormField(
+    decoration: const InputDecoration(hintText: "Name..."),
+    onSaved: (_value) {},
+    validator: (_value) {
+      if (_value == null || _value.isEmpty) {
+        return "Name is required";
+      }
+      return null;
+    },
+  );
+}
+
+Widget _emailTextField() {
+  return TextFormField(
+    decoration: const InputDecoration(hintText: "Email..."),
+    onSaved: (_value) {},
+    validator: (_value) {
+      if (_value == null || _value.isEmpty) {
+        return "Email is required";
+      } else if (!_value.contains(
+        RegExp(r'^[\w-\.]+@([\w-]+\.)+[\w-]{2,4}$'),
+      )) {
+        return "Enter a valid email";
+      }
+      return null;
+    },
+  );
+}
+
+Widget _passwordTextField() {
+  return TextFormField(
+    obscureText: true,
+    decoration: const InputDecoration(hintText: "Password..."),
+    onSaved: (_value) {},
+    validator: (_value) {
+      if (_value == null || _value.isEmpty) {
+        return "Password is required";
+      } else if (_value.length < 6) {
+        return "Password must be at least 6 characters";
+      }
+      return null;
+    },
   );
 }
 
