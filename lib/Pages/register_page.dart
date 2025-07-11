@@ -1,4 +1,6 @@
+import 'package:file_picker/file_picker.dart';
 import 'package:flutter/material.dart';
+import 'dart:io';
 
 class RegisterPage extends StatefulWidget {
   @override
@@ -11,6 +13,7 @@ class _RegisterPageState extends State<RegisterPage> {
   String? _name;
   String? _email;
   String? _password;
+  File? _image;
 
   @override
   Widget build(BuildContext context) {
@@ -28,10 +31,42 @@ class _RegisterPageState extends State<RegisterPage> {
               crossAxisAlignment: CrossAxisAlignment.center,
               children: [
                 _titleWidget(),
+                profileImagewidget(), // ✅ Updated here
                 registerForm(_deviceWidth!, _deviceHeight!, _registerFormKey),
                 _registerButton(_deviceWidth!, _deviceHeight!),
               ],
             ),
+          ),
+        ),
+      ),
+    );
+  }
+
+  // ✅ Only this method is newly added inside _RegisterPageState
+  Widget profileImagewidget() {
+    return GestureDetector(
+      onTap: () async {
+        FilePickerResult? _result = await FilePicker.platform.pickFiles(
+          type: FileType.image,
+        );
+        if (_result != null && _result.files.isNotEmpty) {
+          File selected = File(_result.files.first.path!);
+          setState(() {
+            _image = selected;
+          });
+        }
+      },
+      child: Container(
+        height: _deviceHeight! * 0.15,
+        width: _deviceHeight! * 0.15,
+        decoration: BoxDecoration(
+          shape: BoxShape.circle,
+          image: DecorationImage(
+            image: _image != null
+                ? FileImage(_image!) // show picked image
+                : NetworkImage('https://i.pravatar.cc/300')
+                      as ImageProvider, // default
+            fit: BoxFit.cover,
           ),
         ),
       ),
