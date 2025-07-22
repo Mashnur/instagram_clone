@@ -1,4 +1,6 @@
 import 'package:flutter/material.dart';
+import 'package:instagram_clone/Pages/feed_page.dart';
+import 'package:instagram_clone/Pages/profile_page.dart';
 
 class HomePage extends StatefulWidget {
   @override
@@ -10,10 +12,7 @@ class HomePage extends StatefulWidget {
 class _HomePageState extends State<HomePage> {
   int _currentPgae = 0;
 
-  final List<Widget> _pages = [
-    Container(color: Colors.green),
-    Container(color: Colors.blue),
-  ];
+  final List<Widget> _pages = [FeedPage(), ProfilePage()];
 
   @override
   Widget build(BuildContext context) {
